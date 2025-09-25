@@ -22,14 +22,14 @@ Registrar y consultar pacientes desde la consola para tener un control inicial d
 ---
 
 ## 👤 Gestión de Pacientes
-- [ ] Crear la clase `Paciente` en `Models` con propiedades:
+- [ x] Crear la clase `Paciente` en `Models` con propiedades:
   - `Id` (int)
   - `Nombre` (string)
   - `Edad` (int)
   - `Sintoma` (string)
-- [ ] Probar la creación de objetos `Paciente` en `Program.cs`.
-- [ ] Declarar lista de pacientes en `Program.cs`.
-- [ ] Crear clase `PacienteService` para separar responsabilidades.
+- [x ] Probar la creación de objetos `Paciente` en `Program.cs`.
+- [ x] Declarar lista de pacientes en `Program.cs`.
+- [ x] Crear clase `PacienteService` para separar responsabilidades.
 - [ ] Desarrollar método **RegistrarPaciente**.
 - [ ] Desarrollar método **ListarPacientes**.
 - [ ] Desarrollar método **BuscarPacientePorNombre**.
@@ -37,13 +37,13 @@ Registrar y consultar pacientes desde la consola para tener un control inicial d
 ---
 
 ## 📋 Menú Principal
-- [ ] Diseñar menú con opciones:  
+- [x ] Diseñar menú con opciones:  
   1️⃣ Registrar paciente  
   2️⃣ Listar pacientes  
   3️⃣ Buscar paciente  
   4️⃣ Salir
-- [ ] Implementar bucle `while` para repetir el menú hasta salir.
-- [ ] Implementar navegación entre opciones con `switch-case`.
+- [ x] Implementar bucle `while` para repetir el menú hasta salir.
+- [x ] Implementar navegación entre opciones con `switch-case`.
 
 ---
 
