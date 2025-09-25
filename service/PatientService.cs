@@ -9,11 +9,11 @@ namespace veterinarian.service
 
         public static Patient RegisterPatient()
         {
-            Console.WriteLine("Enter Patient's name");
+            Console.WriteLine("Enter Patient's Name");
             string name = Console.ReadLine() ?? "";
-            Console.WriteLine("Enter Patient's age");
+            Console.WriteLine("Patient Years Entered");
             int age = int.Parse(Console.ReadLine() ?? "");
-            Console.WriteLine("Enter Patient's symptom");
+            Console.WriteLine("Patient Symptoms Entered");
             string symptom = Console.ReadLine() ?? "";
 
             Guid id = Guid.NewGuid();
