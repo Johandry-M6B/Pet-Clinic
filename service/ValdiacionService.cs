@@ -8,7 +8,7 @@ namespace PetClinic.service
 {
     public class ValdiacionService
     {
-        public bool ValidAge(int age)
+        public static bool ValidAge(int age)
         {
             if (age > 0)
             {
@@ -22,7 +22,7 @@ namespace PetClinic.service
 
         }
 
-        public bool ValidName(string name)
+        public static bool ValidName(string name)
         {
             if (string.IsNullOrEmpty(name))
             {

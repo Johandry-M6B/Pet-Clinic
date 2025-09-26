@@ -11,8 +11,28 @@ namespace veterinarian.service
         {
             Console.WriteLine("Enter Patient's Name");
             string name = Console.ReadLine() ?? "";
-            Console.WriteLine("Patient Years Entered");
-            int age = int.Parse(Console.ReadLine() ?? "");
+
+            int age = 0;
+            bool validAge = false;
+
+            while (!validAge)
+            {
+                try
+                {
+                    Console.WriteLine("Patient Years Entered");
+                    age = int.Parse(Console.ReadLine() ?? "");
+                    validAge = age > 0;
+
+                    if (!validAge)
+                        Console.WriteLine("Age must be positive. Try again.");
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid number. Try again.");
+                }
+            }
+
+
             Console.WriteLine("Patient Symptoms Entered");
             string symptom = Console.ReadLine() ?? "";
 
