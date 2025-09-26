@@ -26,13 +26,13 @@ public class Menu
                     Console.ReadKey();
                     break;
                 case "2":
-                    // Funtion of patient search what create;
-                    Console.WriteLine("Leaving the menu");
+                    PatientService.PrintAllPatients();
+                    Console.WriteLine("===================");
                      Console.ReadKey();
                     break;
                 case "3":
-                    // // Funtion of patient search what create;;
-                    Console.WriteLine("Leaving the menu");
+                    PatientService.SearchXName();
+                    Console.WriteLine("====================");
                      Console.ReadKey();
                     break;
                 case "4":

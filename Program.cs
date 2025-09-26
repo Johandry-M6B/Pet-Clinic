@@ -1,8 +1,10 @@
 ﻿
 using veterinarian.ui;
 using veterinarian.models;
+using veterinarian.service;
 
-var paciente1 = new Patient(new Guid(),"Johandry", 20, "Cancer");
+var patients = PatientService.ListPatients;
+var paciente1 = new Patient(Guid.NewGuid(), "Johandry", 20, "Cancer");
 paciente1.MonstraraInformacion();
 
 Menu.ShowMenu();

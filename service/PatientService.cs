@@ -5,7 +5,7 @@ namespace veterinarian.service
 {
     public class PatientService
     {
-        public  static List<Patient> Patients { get; set; } = new List<Patient>();
+        public static List<Patient> Patients { get; set; } = new();
 
         public static Patient RegisterPatient()
         {
@@ -21,5 +21,44 @@ namespace veterinarian.service
             Patients.Add(patient);
             return patient;
         }
+        public static List<Patient> ListPatients => Patients;
+
+        public static void PrintAllPatients()
+        {
+            if (Patients.Count == 0)
+            {
+                Console.WriteLine("Not Patients Registers");
+                return;
+            }
+            foreach (var patient in Patients)
+            {
+                patient.MonstraraInformacion();
+            }
+
+        }
+        public static void SearchXName()
+        {
+            if (Patients.Count == 0)
+            {
+                Console.WriteLine("Not Patients Registers");
+                return;
+            }
+            Console.WriteLine("Enter Name Search:");
+            string NameSearch = Console.ReadLine() ?? "";
+
+            var foundPatients = Patients.Where(patient => patient.Name == NameSearch);
+            if (!foundPatients.Any())
+            {
+                Console.WriteLine("No Patient found with than name.");
+                return;
+            }
+            foreach (var patient in foundPatients)
+            {
+                patient.MonstraraInformacion();
+
+            }
+        }
+
+
     }
 }
