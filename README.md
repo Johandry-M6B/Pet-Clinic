@@ -48,10 +48,10 @@ Registrar y consultar pacientes desde la consola para tener un control inicial d
 ---
 
 ## ⚠️ Manejo de Errores
-- [ ] Implementar manejo básico de errores con `try-catch`.
-- [ ] Validar que la edad ingresada sea un número entero.
-- [ ] Capturar excepciones al convertir datos.
-- [ ] Mostrar mensajes amigables al usuario si la entrada es incorrecta.
+- [x] Implementar manejo básico de errores con `try-catch`.
+- [x] Validar que la edad ingresada sea un número entero.
+- [x] Capturar excepciones al convertir datos.
+- [x] Mostrar mensajes amigables al usuario si la entrada es incorrecta.
 
 ---
 
