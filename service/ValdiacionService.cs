@@ -10,28 +10,12 @@ namespace PetClinic.service
     {
         public static bool ValidAge(int age)
         {
-            if (age > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
-
+            return age > 0 && age < 50;
         }
 
         public static bool ValidName(string name)
         {
-            if (string.IsNullOrEmpty(name))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return !string.IsNullOrWhiteSpace(name) && name.Length >= 2;
         }
     }
 }

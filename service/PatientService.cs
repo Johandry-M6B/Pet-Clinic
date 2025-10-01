@@ -1,22 +1,21 @@
 using veterinarian.models;
-using PetClinic.service; // Añadir este using
+using PetClinic.service;
 
 namespace veterinarian.service
 {
     public class PatientService
     {
         public static List<Patient> Patients { get; set; } = [];
-        public static List<Pet> Pets { get; set; } = [];
+        public static List<Pet> AllPets { get; set; } = [];
 
         public static Patient RegisterPatient()
         {
             string name = "";
             bool validName = false;
 
-            
             while (!validName)
             {
-                Console.WriteLine("Enter Patient's Name");
+                Console.WriteLine("Enter Patient's Name:");
                 name = Console.ReadLine() ?? "";
                 validName = ValdiacionService.ValidName(name);
                 
@@ -27,12 +26,11 @@ namespace veterinarian.service
             int age = 0;
             bool validAge = false;
 
-            
             while (!validAge)
             {
                 try
                 {
-                    Console.WriteLine("Patient Years Entered");
+                    Console.WriteLine("Patient Years Entered:");
                     age = int.Parse(Console.ReadLine() ?? "");
                     validAge = ValdiacionService.ValidAge(age);
 
@@ -45,31 +43,209 @@ namespace veterinarian.service
                 }
             }
 
-            Console.WriteLine("Patient Symptoms Entered");
+            Console.WriteLine("Patient Symptoms Entered:");
             string symptom = Console.ReadLine() ?? "";
 
             Guid id = Guid.NewGuid();
             var patient = new Patient(id, name, age, symptom);
             Patients.Add(patient);
             
-            Console.WriteLine($"Patient '{name}' registered successfully!");
+            Console.WriteLine($"\n✅ Patient '{name}' registered successfully!");
             return patient;
         }
 
-        public static List<Patient> ListPatients => Patients;
+        public static void RegisterPetForPatient()
+        {
+            if (Patients.Count == 0)
+            {
+                Console.WriteLine("No patients registered. Please register a patient first.");
+                return;
+            }
+
+            Console.WriteLine("\n--- REGISTER PET FOR PATIENT ---");
+            
+            // Mostrar lista de pacientes disponibles
+            Console.WriteLine("\nAvailable Patients:");
+            foreach (var patient in Patients)
+            {
+                Console.WriteLine($"- {patient.Name} (Age: {patient.Age})");
+            }
+
+            string patientName = "";
+            Patient selectedPatient = null;
+
+            while (selectedPatient == null)
+            {
+                Console.WriteLine("\nEnter patient NAME to add pet:");
+                patientName = Console.ReadLine() ?? "";
+                
+                if (!ValdiacionService.ValidName(patientName))
+                {
+                    Console.WriteLine("Invalid patient name. Try again.");
+                    continue;
+                }
+
+                // Buscar paciente por nombre (case insensitive)
+                selectedPatient = Patients.FirstOrDefault(p => 
+                    p.Name.ToLower().Contains(patientName.ToLower()));
+
+                if (selectedPatient == null)
+                {
+                    Console.WriteLine("Patient not found. Available patients:");
+                    foreach (var patient in Patients)
+                    {
+                        Console.WriteLine($"- {patient.Name}");
+                    }
+                }
+            }
+
+            // Registrar mascota
+            RegisterPet(selectedPatient);
+        }
+
+        private static void RegisterPet(Patient patient)
+        {
+            string petName = "";
+            bool validPetName = false;
+
+            while (!validPetName)
+            {
+                Console.WriteLine("Enter Pet's Name:");
+                petName = Console.ReadLine() ?? "";
+                validPetName = ValdiacionService.ValidName(petName);
+                
+                if (!validPetName)
+                    Console.WriteLine("Invalid pet name. Try again.");
+            }
+
+            string sexo = "";
+            bool validSex = false;
+
+            while (!validSex)
+            {
+                Console.WriteLine("Enter Pet's Sex (Macho/Hembra):");
+                sexo = Console.ReadLine() ?? "";
+                
+                if (!string.IsNullOrWhiteSpace(sexo) && 
+                    (sexo.ToLower() == "macho" || sexo.ToLower() == "hembra"))
+                {
+                    validSex = true;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid sex. Please enter 'Macho' or 'Hembra'.");
+                }
+            }
+
+            int petAge = 0;
+            bool validPetAge = false;
+
+            while (!validPetAge)
+            {
+                try
+                {
+                    Console.WriteLine("Enter Pet's Age:");
+                    petAge = int.Parse(Console.ReadLine() ?? "");
+                    validPetAge = ValdiacionService.ValidAge(petAge);
+
+                    if (!validPetAge)
+                        Console.WriteLine("Pet age must be positive. Try again.");
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid number. Try again.");
+                }
+            }
+
+            Console.WriteLine("Enter Pet's Breed:");
+            string raza = Console.ReadLine() ?? "";
+
+            Guid petId = Guid.NewGuid();
+            var pet = new Pet(petId, petName, sexo, petAge, raza);
+            
+            patient.AddPet(pet);
+            AllPets.Add(pet);
+
+            Console.WriteLine($"\n✅ Pet '{petName}' registered successfully for patient '{patient.Name}'!");
+        }
+
+        public static void ShowPetsOfSpecificPatient()
+        {
+            if (Patients.Count == 0)
+            {
+                Console.WriteLine("No Patients Registered");
+                return;
+            }
+
+            Console.WriteLine("\n--- SHOW PETS OF SPECIFIC PATIENT ---");
+            
+            // Mostrar lista de pacientes
+            Console.WriteLine("\nAvailable Patients:");
+            foreach (var patient in Patients)
+            {
+                Console.WriteLine($"- {patient.Name} ({patient.Pets.Count} pets)");
+            }
+
+            string patientName = "";
+            Patient selectedPatient = null;
+
+            while (selectedPatient == null)
+            {
+                Console.WriteLine("\nEnter patient NAME to view pets:");
+                patientName = Console.ReadLine() ?? "";
+                
+                if (!ValdiacionService.ValidName(patientName))
+                {
+                    Console.WriteLine("Invalid patient name. Try again.");
+                    continue;
+                }
+
+                // Buscar paciente por nombre
+                selectedPatient = Patients.FirstOrDefault(p => 
+                    p.Name.ToLower().Contains(patientName.ToLower()));
+
+                if (selectedPatient == null)
+                {
+                    Console.WriteLine("Patient not found. Available patients:");
+                    foreach (var patient in Patients)
+                    {
+                        Console.WriteLine($"- {patient.Name}");
+                    }
+                }
+            }
+
+            Console.WriteLine($"\n--- PETS OF PATIENT: {selectedPatient.Name} ---");
+            selectedPatient.ShowPets();
+        }
+
+        public static void ShowPatientWithPets()
+        {
+            if (Patients.Count == 0)
+            {
+                Console.WriteLine("No Patients Registered");
+                return;
+            }
+
+            Console.WriteLine("\n--- ALL PATIENTS WITH THEIR PETS ---");
+            foreach (var patient in Patients)
+            {
+                patient.MonstraraInformacion();
+                Console.WriteLine(); // Línea en blanco para separar
+            }
+        }
 
         public static void PrintAllPatients()
         {
             if (Patients.Count == 0)
             {
-                Console.WriteLine("Not Patients Registers");
+                Console.WriteLine("No Patients Registered");
                 return;
             }
             
             Console.WriteLine($"\n--- LIST OF PATIENTS ({Patients.Count}) ---");
             foreach (var patient in Patients)
             {
-                patient.MonstraraInformacion();
+                Console.WriteLine($"Name: {patient.Name}, Age: {patient.Age}, Pets: {patient.Pets.Count}");
             }
         }
 
@@ -77,14 +253,13 @@ namespace veterinarian.service
         {
             if (Patients.Count == 0)
             {
-                Console.WriteLine("Not Patients Registers");
+                Console.WriteLine("No Patients Registered");
                 return;
             }
             
             Console.WriteLine("Enter Name Search:");
             string NameSearch = Console.ReadLine() ?? "";
 
-            
             if (!ValdiacionService.ValidName(NameSearch))
             {
                 Console.WriteLine("Search name cannot be empty.");
@@ -107,42 +282,51 @@ namespace veterinarian.service
             }
         }
 
-        
-        public static void DeletePatient()
+        // Nuevo método para registrar múltiples mascotas
+        public static void RegisterMultiplePetsForPatient()
         {
             if (Patients.Count == 0)
             {
-                Console.WriteLine("No Patients Registered");
+                Console.WriteLine("No patients registered.");
                 return;
             }
 
-            Console.WriteLine("Enter Patient Name to Delete:");
-            string nameToDelete = Console.ReadLine() ?? "";
-
-            if (!ValdiacionService.ValidName(nameToDelete))
+            Console.WriteLine("\n--- REGISTER MULTIPLE PETS ---");
+            
+            Console.WriteLine("Available Patients:");
+            foreach (var patient in Patients)
             {
-                Console.WriteLine("Invalid patient name.");
-                return;
+                Console.WriteLine($"- {patient.Name}");
             }
 
-            var patientsToDelete = Patients.Where(p => 
-                p.Name.ToLower() == nameToDelete.ToLower()).ToList();
+            string patientName = "";
+            Patient selectedPatient = null;
 
-            if (patientsToDelete.Count == 0)
+            while (selectedPatient == null)
             {
-                Console.WriteLine("No patient found with that name.");
-                return;
-            }
-
-            if (patientsToDelete.Count > 1)
-            {
-                Console.WriteLine($"Multiple patients found with name '{nameToDelete}'. Please use ID to specify.");
+                Console.WriteLine("\nEnter patient NAME:");
+                patientName = Console.ReadLine() ?? "";
                 
-                return;
+                selectedPatient = Patients.FirstOrDefault(p => 
+                    p.Name.ToLower().Contains(patientName.ToLower()));
+
+                if (selectedPatient == null)
+                {
+                    Console.WriteLine("Patient not found. Try again.");
+                }
             }
 
-            Patients.Remove(patientsToDelete[0]);
-            Console.WriteLine($"Patient '{nameToDelete}' deleted successfully!");
+            bool addMorePets = true;
+            while (addMorePets)
+            {
+                RegisterPet(selectedPatient);
+                
+                Console.WriteLine("\nDo you want to add another pet for this patient? (y/n)");
+                string response = Console.ReadLine()?.ToLower() ?? "";
+                addMorePets = response == "y" || response == "yes";
+            }
+
+            Console.WriteLine($"\nTotal pets for {selectedPatient.Name}: {selectedPatient.Pets.Count}");
         }
     }
 }
