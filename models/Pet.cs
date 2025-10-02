@@ -3,19 +3,36 @@
 
 namespace veterinarian.models;
 
-public class Pet(Guid id, string petName, string sexo, int petAge, string raza)
+public class Pet(Guid id, string petName, string sexo, int petAge, string raza, string owner) : Animal(petName, petAge, raza)
 {
-    public Guid ID { get; set; } = id;
-    public string PetName { get; set; } = petName;
-    public string Sexo { get; set; } = sexo;
-    public int PetAge { get; set; } = petAge;
-    public string Raza { get; set; } = raza;
+    public Guid ID { get; private set; } = id;
+    public string Owner { get; private set; } = owner;
+    public string Sexo { get; private set; } = sexo;
 
 
-public void ShowPets()
-{
-    Console.WriteLine($"ID:{ID} Name:{PetName}, age:{PetAge}, Sexo: {Sexo}, Raza:{Raza} ");
-}
 
+    public override void AnimalSound()
+    {
+        string sound = ToGetSoundAnimal();
+        Console.WriteLine($"{PetName} ({Raza} to Make: {sound})");
+    }
+
+    private string ToGetSoundAnimal()
+    {
+        return Raza.ToLower() switch
+        {
+            "dog" => "WOW Wow",
+            "cat" => "Miua Miau",
+            "bird" => "Piua",
+            "parrot" => "Hello World",
+            _ => "Soundo Not Recognized"
+
+        };
+    }
+    public override void ShowAnimals()
+    {
+        Console.WriteLine($"ID:{ID} Name:{PetName}, age:{PetAge}, Sexo: {Sexo}, Raza:{Raza} ");
+        AnimalSound();
+    }
 }
 
