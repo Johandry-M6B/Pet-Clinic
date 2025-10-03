@@ -1,5 +1,6 @@
 
 
+using veterinarian.interfaces;
 using veterinarian.models;
 using veterinarian.service;
 
@@ -9,6 +10,8 @@ public class Menu
 {
     public static void ShowMenu()
     {
+        IRegister obte = new PatientService();
+
         bool exit = false;
         while (!exit)
         {
@@ -26,7 +29,7 @@ public class Menu
             switch (option)
             {
                 case "1":
-                    PatientService.RegisterPatient();
+                    obte.Register();
                     Console.WriteLine("Patient Register Succefull");
                     Console.ReadKey();
                     break;
@@ -57,7 +60,7 @@ public class Menu
                     Console.ReadKey();
                     break;
                 case "8":
-                    PatientService.RegisterPatient();
+                    obte.Register();
                     Console.ReadKey();
                     break;
                 case "9":

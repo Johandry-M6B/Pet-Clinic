@@ -1,14 +1,15 @@
 using veterinarian.models;
 using PetClinic.service;
+using veterinarian.interfaces;
 
 namespace veterinarian.service;
 
-public class PatientService
+public class PatientService : IRegister
 {
     public static List<Patient> Patients { get; set; } = [];
     public static List<Pet> AllPets { get; set; } = [];
 
-    public static Patient RegisterPatient()
+    bool IRegister.Register()
     {
         try
         {
@@ -56,12 +57,12 @@ public class PatientService
             Patients.Add(patient);
 
             Console.WriteLine($"\n Patient '{name}' registered successfully!");
-            return patient;
+            return true;
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error register patient: {ex.Message}");
-            return null;
+            return false;
         }
     }
     public static void RegisterPetForPatient()
