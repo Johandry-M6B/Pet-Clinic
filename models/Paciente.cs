@@ -2,17 +2,15 @@
 namespace veterinarian.models;
 
 
-public class Patient(Guid id, string name, int age, string phone, string adrress)
+public class Patient(Guid id, string name, int age, string phone, string adrress):Person(name,age)
 {
     public Guid ID { get; private set; } = id;
-    public string Name { get; private set; } = name;
-    public int Age { get; private set; } = age;
     public string Phone { get; private set; } = phone;
     public string Adrress { get; private set; } = adrress;
     public List<Pet> Pets { get; private set; } = [];
 
 
-    public void MonstraraInformacion()
+    public override void ShowInformacion()
     {
         Console.WriteLine($"ID:{ID} Name:{Name}, age:{Age}, Phone: {Phone}, Adrres:{Adrress} ");
         ShowPets();

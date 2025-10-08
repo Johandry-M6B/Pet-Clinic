@@ -1,5 +1,4 @@
 using veterinarian.models;
-using PetClinic.service;
 using veterinarian.interfaces;
 
 namespace veterinarian.service;
@@ -65,7 +64,8 @@ public class PatientService : IRegister
             return false;
         }
     }
-    public static void RegisterPetForPatient()
+    void IRegister.RegisterPatientXPet()
+
     {
         if (Patients.Count == 0)
         {
@@ -83,7 +83,7 @@ public class PatientService : IRegister
         }
 
         string patientName = "";
-        Patient selectedPatient = null;
+        Patient? selectedPatient = null;
 
         while (selectedPatient == null)
         {
@@ -110,10 +110,45 @@ public class PatientService : IRegister
         }
 
 
-        RegisterPet(selectedPatient);
+        RegisterPetForPatient(selectedPatient);
     }
 
-    private static void RegisterPet(Patient patient)
+    void IRegister.RegisterPet()
+    {
+        if (Patients.Count == 0)
+        {
+            Console.WriteLine("No patient resgister. please a patient first");
+            return;
+        }
+        Console.WriteLine("----------REGISTER PETS---------------");
+
+        Console.WriteLine("avaible Patients");
+        foreach (var patient in Patients)
+        {
+            Console.WriteLine($"-{patient.Name}");
+        }
+        Patient? selectedPatient = null;
+        while (selectedPatient == null)
+        {
+            Console.WriteLine("Enter Patient NAME for the pet");
+            string patientName = Console.ReadLine() ?? "";
+
+            if (!ValdiacionService.ValidName(patientName))
+            {
+                Console.WriteLine("Invalide Patient name. try again");
+                continue;
+            }
+            selectedPatient = Patients.FirstOrDefault(p =>
+            p.Name.ToLower().Contains(patientName.ToLower()));
+
+            if (selectedPatient == null)
+            {
+                Console.WriteLine("Patient not found. try again.");
+            }
+        }
+        RegisterPetForPatient(selectedPatient);
+    }
+    private static void RegisterPetForPatient(Patient patient)
     {
         string petName = "";
         bool validPetName = false;
@@ -169,22 +204,15 @@ public class PatientService : IRegister
 
         Console.WriteLine("Enter Pet's Breed:");
         string raza = Console.ReadLine() ?? "";
-        string owner = patient.Name;
 
         Guid petId = Guid.NewGuid();
-        var pet = new Pet(petId,
-                          petName,
-                          sexo,
-                          petAge,
-                          raza,
-                          owner);
+        var pet = new Pet(petId, petName, sexo, petAge, raza, patient.Name);
 
         patient.AddPet(pet);
         AllPets.Add(pet);
 
         Console.WriteLine($"\n✅ Pet '{petName}' registered successfully for patient '{patient.Name}'!");
     }
-
     public static void ShowPetsOfSpecificPatient()
     {
         if (Patients.Count == 0)
@@ -203,7 +231,7 @@ public class PatientService : IRegister
         }
 
         string patientName = "";
-        Patient selectedPatient = null;
+        Patient? selectedPatient = null;
 
         while (selectedPatient == null)
         {
@@ -246,7 +274,7 @@ public class PatientService : IRegister
         foreach (var pet in AllPets)
         {
             Console.WriteLine($"\n--- {pet.PetName} ({pet.Raza})");
-            pet.AnimalSound();   
+            pet.AnimalSound();
         }
 
     }
@@ -277,7 +305,7 @@ public class PatientService : IRegister
             pet.ShowAnimals();
         }
     }
-    
+
 
     public static void ShowPatientWithPets()
     {
@@ -290,7 +318,7 @@ public class PatientService : IRegister
         Console.WriteLine("\n--- ALL PATIENTS WITH THEIR PETS ---");
         foreach (var patient in Patients)
         {
-            patient.MonstraraInformacion();
+            patient.ShowInformacion();
             Console.WriteLine(); // Línea en blanco para separar
         }
     }
@@ -339,54 +367,7 @@ public class PatientService : IRegister
         Console.WriteLine($"\n--- FOUND PATIENTS ({foundPatients.Count}) ---");
         foreach (var patient in foundPatients)
         {
-            patient.MonstraraInformacion();
+            patient.ShowInformacion();
         }
-    }
-
-    // Nuevo método para registrar múltiples mascotas
-    public static void RegisterMultiplePetsForPatient()
-    {
-        if (Patients.Count == 0)
-        {
-            Console.WriteLine("No patients registered.");
-            return;
-        }
-
-        Console.WriteLine("\n--- REGISTER MULTIPLE PETS ---");
-
-        Console.WriteLine("Available Patients:");
-        foreach (var patient in Patients)
-        {
-            Console.WriteLine($"- {patient.Name}");
-        }
-
-        string patientName = "";
-        Patient selectedPatient = null;
-
-        while (selectedPatient == null)
-        {
-            Console.WriteLine("\nEnter patient NAME:");
-            patientName = Console.ReadLine() ?? "";
-
-            selectedPatient = Patients.FirstOrDefault(p =>
-                p.Name.ToLower().Contains(patientName.ToLower()));
-
-            if (selectedPatient == null)
-            {
-                Console.WriteLine("Patient not found. Try again.");
-            }
-        }
-
-        bool addMorePets = true;
-        while (addMorePets)
-        {
-            RegisterPet(selectedPatient);
-
-            Console.WriteLine("\nDo you want to add another pet for this patient? (y/n)");
-            string response = Console.ReadLine()?.ToLower() ?? "";
-            addMorePets = response == "y" || response == "yes";
-        }
-
-        Console.WriteLine($"\nTotal pets for {selectedPatient.Name}: {selectedPatient.Pets.Count}");
-    }
+    }  
 }

@@ -1,5 +1,4 @@
-
-namespace PetClinic.service
+namespace veterinarian.service
 {
     public class AnimalService
     {

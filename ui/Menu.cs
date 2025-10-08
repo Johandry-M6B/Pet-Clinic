@@ -34,7 +34,7 @@ public class Menu
                     Console.ReadKey();
                     break;
                 case "2":
-                    PatientService.RegisterPetForPatient();
+                    obte.RegisterPatientXPet();
                     Console.WriteLine("===================");
                     Console.ReadKey();
                     break;
