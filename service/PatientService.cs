@@ -64,155 +64,118 @@ public class PatientService : IRegister
             return false;
         }
     }
-    void IRegister.RegisterPatientXPet()
 
-    {
-        if (Patients.Count == 0)
-        {
-            Console.WriteLine("No patients registered. Please register a patient first.");
-            return;
-        }
+    // {
+    //     if (Patients.Count == 0)
+    //     {
+    //         Console.WriteLine("No patients registered. Please register a patient first.");
+    //         return;
+    //     }
 
-        Console.WriteLine("\n--- REGISTER PET FOR PATIENT ---");
-
-
-        Console.WriteLine("\nAvailable Patients:");
-        foreach (var patient in Patients)
-        {
-            Console.WriteLine($"- {patient.Name} (Age: {patient.Age})");
-        }
-
-        string patientName = "";
-        Patient? selectedPatient = null;
-
-        while (selectedPatient == null)
-        {
-            Console.WriteLine("\nEnter patient NAME to add pet:");
-            patientName = Console.ReadLine() ?? "";
-
-            if (!ValdiacionService.ValidName(patientName))
-            {
-                Console.WriteLine("Invalid patient name. Try again.");
-                continue;
-            }
-
-            selectedPatient = Patients.FirstOrDefault(p =>
-                p.Name.ToLower().Contains(patientName.ToLower()));
-
-            if (selectedPatient == null)
-            {
-                Console.WriteLine("Patient not found. Available patients:");
-                foreach (var patient in Patients)
-                {
-                    Console.WriteLine($"- {patient.Name}");
-                }
-            }
-        }
+    //     Console.WriteLine("\n--- REGISTER PET FOR PATIENT ---");
 
 
-        RegisterPetForPatient(selectedPatient);
-    }
+    //     Console.WriteLine("\nAvailable Patients:");
+    //     foreach (var patient in Patients)
+    //     {
+    //         Console.WriteLine($"- {patient.Name} (Age: {patient.Age})");
+    //     }
 
-    void IRegister.RegisterPet()
-    {
-        if (Patients.Count == 0)
-        {
-            Console.WriteLine("No patient resgister. please a patient first");
-            return;
-        }
-        Console.WriteLine("----------REGISTER PETS---------------");
+    //     string patientName = "";
+    //     Patient? selectedPatient = null;
 
-        Console.WriteLine("avaible Patients");
-        foreach (var patient in Patients)
-        {
-            Console.WriteLine($"-{patient.Name}");
-        }
-        Patient? selectedPatient = null;
-        while (selectedPatient == null)
-        {
-            Console.WriteLine("Enter Patient NAME for the pet");
-            string patientName = Console.ReadLine() ?? "";
+    //     while (selectedPatient == null)
+    //     {
+    //         Console.WriteLine("\nEnter patient NAME to add pet:");
+    //         patientName = Console.ReadLine() ?? "";
 
-            if (!ValdiacionService.ValidName(patientName))
-            {
-                Console.WriteLine("Invalide Patient name. try again");
-                continue;
-            }
-            selectedPatient = Patients.FirstOrDefault(p =>
-            p.Name.ToLower().Contains(patientName.ToLower()));
+    //         if (!ValdiacionService.ValidName(patientName))
+    //         {
+    //             Console.WriteLine("Invalid patient name. Try again.");
+    //             continue;
+    //         }
 
-            if (selectedPatient == null)
-            {
-                Console.WriteLine("Patient not found. try again.");
-            }
-        }
-        RegisterPetForPatient(selectedPatient);
-    }
-    private static void RegisterPetForPatient(Patient patient)
-    {
-        string petName = "";
-        bool validPetName = false;
+    //         selectedPatient = Patients.FirstOrDefault(p =>
+    //             p.Name.ToLower().Contains(patientName.ToLower()));
 
-        while (!validPetName)
-        {
-            Console.WriteLine("Enter Pet's Name:");
-            petName = Console.ReadLine() ?? "";
-            validPetName = ValdiacionService.ValidName(petName);
+    //         if (selectedPatient == null)
+    //         {
+    //             Console.WriteLine("Patient not found. Available patients:");
+    //             foreach (var patient in Patients)
+    //             {
+    //                 Console.WriteLine($"- {patient.Name}");
+    //             }
+    //         }
+    //     }
 
-            if (!validPetName)
-                Console.WriteLine("Invalid pet name. Try again.");
-        }
 
-        string sexo = "";
-        bool validSex = false;
+    //     RegisterPetForPatient(selectedPatient);
+    // }
+    // public static void RegisterPetForPatient(Patient patient)
+    // {
+    //     string petName = "";
+    //     bool validPetName = false;
 
-        while (!validSex)
-        {
-            Console.WriteLine("Enter Pet's Sex (Macho/Hembra):");
-            sexo = Console.ReadLine() ?? "";
+    //     while (!validPetName)
+    //     {
+    //         Console.WriteLine("Enter Pet's Name:");
+    //         petName = Console.ReadLine() ?? "";
+    //         validPetName = ValdiacionService.ValidName(petName);
 
-            if (!string.IsNullOrWhiteSpace(sexo) &&
-                (sexo.ToLower() == "macho" || sexo.ToLower() == "hembra"))
-            {
-                validSex = true;
-            }
-            else
-            {
-                Console.WriteLine("Invalid sex. Please enter 'Macho' or 'Hembra'.");
-            }
-        }
+    //         if (!validPetName)
+    //             Console.WriteLine("Invalid pet name. Try again.");
+    //     }
 
-        int petAge = 0;
-        bool validPetAge = false;
+    //     string sexo = "";
+    //     bool validSex = false;
 
-        while (!validPetAge)
-        {
-            try
-            {
-                Console.WriteLine("Enter Pet's Age:");
-                petAge = int.Parse(Console.ReadLine() ?? "");
-                validPetAge = ValdiacionService.ValidAge(petAge);
+    //     while (!validSex)
+    //     {
+    //         Console.WriteLine("Enter Pet's Sex (Macho/Hembra):");
+    //         sexo = Console.ReadLine() ?? "";
 
-                if (!validPetAge)
-                    Console.WriteLine("Pet age must be positive. Try again.");
-            }
-            catch
-            {
-                Console.WriteLine("Invalid number. Try again.");
-            }
-        }
+    //         if (!string.IsNullOrWhiteSpace(sexo) &&
+    //             (sexo.ToLower() == "macho" || sexo.ToLower() == "hembra"))
+    //         {
+    //             validSex = true;
+    //         }
+    //         else
+    //         {
+    //             Console.WriteLine("Invalid sex. Please enter 'Macho' or 'Hembra'.");
+    //         }
+    //     }
 
-        Console.WriteLine("Enter Pet's Breed:");
-        string raza = Console.ReadLine() ?? "";
+    //     int petAge = 0;
+    //     bool validPetAge = false;
 
-        Guid petId = Guid.NewGuid();
-        var pet = new Pet(petId, petName, sexo, petAge, raza, patient.Name);
+    //     while (!validPetAge)
+    //     {
+    //         try
+    //         {
+    //             Console.WriteLine("Enter Pet's Age:");
+    //             petAge = int.Parse(Console.ReadLine() ?? "");
+    //             validPetAge = ValdiacionService.ValidAge(petAge);
 
-        patient.AddPet(pet);
-        AllPets.Add(pet);
+    //             if (!validPetAge)
+    //                 Console.WriteLine("Pet age must be positive. Try again.");
+    //         }
+    //         catch
+    //         {
+    //             Console.WriteLine("Invalid number. Try again.");
+    //         }
+    //     }
 
-        Console.WriteLine($"\n✅ Pet '{petName}' registered successfully for patient '{patient.Name}'!");
-    }
+    //     Console.WriteLine("Enter Pet's Breed:");
+    //     string raza = Console.ReadLine() ?? "";
+
+    //     Guid petId = Guid.NewGuid();
+    //     var pet = new Pet(petId, petName, sexo, petAge, raza, patient.Name);
+
+    //     patient.AddPet(pet);
+    //     AllPets.Add(pet);
+
+    //     Console.WriteLine($"\n✅ Pet '{petName}' registered successfully for patient '{patient.Name}'!");
+    // }
     public static void ShowPetsOfSpecificPatient()
     {
         if (Patients.Count == 0)

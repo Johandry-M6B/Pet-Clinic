@@ -10,31 +10,32 @@ public class Menu
 {
     public static void ShowMenu()
     {
-        IRegister obte = new PatientService();
+        IRegister Obte = new PatientService();
+        IRegister Animal = new AnimalService();
 
         bool exit = false;
         while (!exit)
         {
             Console.WriteLine("===================Menu===================");
             Console.WriteLine("1.Register Patient");
-            Console.WriteLine("2.Register Pet forPatient");
+            Console.WriteLine("2.Register Pet for Patient");
             Console.WriteLine("3.Show all Patients with Pets");
             Console.WriteLine("4.Show Pets of specific patient");
             Console.WriteLine("5.Searche patient by name");
             Console.WriteLine("6.Poly");
             Console.WriteLine("7.Search pets by species");
-            Console.WriteLine("8.Add medical record to Pet");
+            Console.WriteLine("8.Show all the patients");
             Console.WriteLine("9.EXIT");
             string option = Console.ReadLine() ?? "";
             switch (option)
             {
                 case "1":
-                    obte.Register();
+                    Obte.Register();
                     Console.WriteLine("Patient Register Succefull");
                     Console.ReadKey();
                     break;
                 case "2":
-                    obte.RegisterPatientXPet();
+                    Animal.Register();
                     Console.WriteLine("===================");
                     Console.ReadKey();
                     break;
@@ -56,11 +57,11 @@ public class Menu
                     Console.ReadKey();
                     break;
                 case "7":
-                    PatientService.ShowPetsOfSpecificPatient();
+                    PatientService.SearchPetXSpecie();
                     Console.ReadKey();
                     break;
                 case "8":
-                    obte.Register();
+                    PatientService.PrintAllPatients();
                     Console.ReadKey();
                     break;
                 case "9":

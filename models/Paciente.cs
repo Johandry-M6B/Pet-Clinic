@@ -8,7 +8,7 @@ public class Patient(Guid id, string name, int age, string phone, string adrress
     public string Phone { get; private set; } = phone;
     public string Adrress { get; private set; } = adrress;
     public List<Pet> Pets { get; private set; } = [];
-
+    public static int Count { get; internal set; }
 
     public override void ShowInformacion()
     {
